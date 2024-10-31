@@ -23,7 +23,7 @@ settings_path = os.path.join(project_name, "settings.py")
 with open(settings_path, "r") as f:
     settings_content = f.read()
 
-# Insérer ALLOWED_HOSTS
+# Insert ALLOWED_HOSTS
 settings_content = settings_content.replace(
     "ALLOWED_HOSTS = []",
     "ALLOWED_HOSTS = ['localhost', '127.0.0.1']"
