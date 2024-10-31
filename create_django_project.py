@@ -18,7 +18,7 @@ subprocess.run(["django-admin", "startproject", project_name])
 # Navigate in the project directory
 os.chdir(project_name)
 
-# Ajouter ALLOWED_HOSTS dans settings.py
+# Adding ALLOWED_HOSTS in settings.py
 settings_path = os.path.join(project_name, "settings.py")
 with open(settings_path, "r") as f:
     settings_content = f.read()
