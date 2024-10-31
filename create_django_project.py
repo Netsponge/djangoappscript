@@ -32,7 +32,7 @@ settings_content = settings_content.replace(
 with open(settings_path, "w") as f:
     f.write(settings_content)
 
-# Créer l'application
+# Create your app
 subprocess.run([os.path.join("..", ".venv", "bin", "python"), "manage.py", "startapp", app_name])
 
 # Créer le fichier .env
