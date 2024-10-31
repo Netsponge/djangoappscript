@@ -22,7 +22,7 @@ subprocess.run([os.path.join(".venv", "bin", "pip"), "install", "django"] if os.
 subprocess.run(["django-admin", "startproject", project_name])
 ```
 
-### # Navigate in the project directory
+### Navigate in the project directory
 
 ```shell
 os.chdir(project_name)

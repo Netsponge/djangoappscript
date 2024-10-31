@@ -60,7 +60,7 @@ with open("README.md", "w") as f:
     f.write("pip install -r requirements.txt\n")
     f.write("```\n")
 
-# Créer les dossiers templates et static
+# Create static and templates folder
 os.makedirs(os.path.join(app_name, "templates", app_name), exist_ok=True)
 os.makedirs(os.path.join(app_name, "static"), exist_ok=True)
 
