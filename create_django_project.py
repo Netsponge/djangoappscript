@@ -10,7 +10,8 @@ os.makedirs("myapp", exist_ok=True)
 subprocess.run([sys.executable, "-m", "venv", ".venv"])
 
 # Install django in virtual environment
-subprocess.run([os.path.join(".venv", "bin", "pip"), "install", "django"] if os.name != 'nt' else [os.path.join(".venv", "Scripts", "pip"), "install", "django"])
+subprocess.run([os.path.join(".venv", "bin", "pip"), 
+"install", "django"] if os.name != 'nt' else [os.path.join(".venv", "Scripts", "pip"), "install", "django"])
 
 # Create django project
 subprocess.run(["django-admin", "startproject", project_name])
