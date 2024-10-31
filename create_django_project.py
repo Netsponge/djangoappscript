@@ -41,7 +41,7 @@ with open(".env", "w") as f:
     f.write("DEBUG=True\n")
     f.write("ALLOWED_HOSTS='localhost, 127.0.0.1'\n")
 
-# Créer le fichier .gitignore
+# Create .gitignore
 with open(".gitignore", "w") as f:
     f.write(".env\n")
     f.write("__pycache__/\n")
