@@ -64,7 +64,7 @@ with open("README.md", "w") as f:
 os.makedirs(os.path.join(app_name, "templates", app_name), exist_ok=True)
 os.makedirs(os.path.join(app_name, "static"), exist_ok=True)
 
-# Créer le fichier base.html
+# Create the basic html file
 with open(os.path.join(app_name, "templates", app_name, "base.html"), "w") as f:
     f.write("<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n")
     f.write("    <meta charset=\"UTF-8\">\n")
@@ -74,7 +74,7 @@ with open(os.path.join(app_name, "templates", app_name, "base.html"), "w") as f:
     f.write("    <h1>Bienvenue dans le projet Django</h1>\n")
     f.write("</body>\n</html>")
 
-# Créer le fichier layout.html
+# Create the layout file html
 with open(os.path.join(app_name, "templates", app_name, "layout.html"), "w") as f:
     f.write("<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n")
     f.write("    <meta charset=\"UTF-8\">\n")
