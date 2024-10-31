@@ -35,7 +35,7 @@ with open(settings_path, "w") as f:
 # Create your app
 subprocess.run([os.path.join("..", ".venv", "bin", "python"), "manage.py", "startapp", app_name])
 
-# Créer le fichier .env
+# Create file .env
 with open(".env", "w") as f:
     f.write("SECRET_KEY='votre_cle_secrète'\n")
     f.write("DEBUG=True\n")
