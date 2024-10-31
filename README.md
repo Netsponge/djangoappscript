@@ -1,29 +1,19 @@
 # djangoappscript is a more advanced script for a django project
 
-### Create a new folder "myapp"
+## Prerequisites
 
-```python
-os.makedirs("myapp", exist_ok=True)
-```
+Ensure that `py` command points to python3 with `py -V` (python 3 or above)
 
-### Create a virtual environment for python
+## Launch script
 
-```python
-subprocess.run([sys.executable, "-m", "venv", ".venv"])
-```
- ### Install django in virtual environment
- 
- ```python
-subprocess.run([os.path.join(".venv", "bin", "pip"), "install", "django"] if os.name != 'nt' else [os.path.join(".venv", "Scripts", "pip"), "install", "django"])
-```
-
-### Create django project
-```python
-subprocess.run(["django-admin", "startproject", project_name])
-```
-
-### Navigate in the project directory
+In the terminal, launch
 
 ```shell
-os.chdir(project_name)
+py create_django_project.py
+```
+
+## Restart from scratch
+
+```shell
+rm -rf myapp && py create_django_project.py
 ```
