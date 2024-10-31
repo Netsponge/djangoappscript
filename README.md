@@ -4,6 +4,20 @@
 
 Ensure that `py` command points to python3 with `py -V` (python 3 or above)
 
+## create your repository in your workspace
+
+In the terminal, launch
+
+```shell
+mkcd djangoproject
+```
+
+## verify your are in the good directory
+
+```
+~/workspace/djangoproject$
+```
+
 ## Launch script
 
 In the terminal, launch
