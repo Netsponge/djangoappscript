@@ -51,7 +51,7 @@ with open(".gitignore", "w") as f:
     f.write("db.sqlite3\n")
     f.write(".venv/\n")
 
-# Créer le fichier README.md
+# Create README.md
 with open("README.md", "w") as f:
     f.write(f"# {project_name}\n")
     f.write("Ce projet est un projet Django.\n\n")
