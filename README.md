@@ -4,7 +4,7 @@
 
 Ensure that `py` command points to python3 with `py -V` (python 3 or above)
 
-## create your repository in your workspace
+## create your directory in your workspace
 
 In the terminal, launch
 
