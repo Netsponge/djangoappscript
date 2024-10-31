@@ -15,7 +15,7 @@ subprocess.run([os.path.join(".venv", "bin", "pip"), "install", "django"] if os.
 # Create django project
 subprocess.run(["django-admin", "startproject", project_name])
 
-# Naviguer dans le dossier du projet
+# Navigate in the project directory
 os.chdir(project_name)
 
 # Ajouter ALLOWED_HOSTS dans settings.py
