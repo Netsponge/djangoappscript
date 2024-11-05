@@ -1,25 +1,44 @@
-# -*- coding: utf-8 -*-
 import os
-import subprocess
-import sys
-import os
-import sys
-import subprocess
+import shutil
 
-# Définir le nom du projet Django
-yourproject = "my_django_project"  # Remplacez par le nom souhaité pour votre projet
+# Nom de base du projet et chemins des dossiers
+PROJECT_NAME = "MonProjet"
+BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
+FILES_TO_CREATE = {
+    "asgi.py": "/mnt/data/asgi.py",
+    "urls.py": "/mnt/data/urls.py",
+    "wsgi.py": "/mnt/data/wsgi.py",
+}
 
-# Créer un nouveau dossier "myapp"
-os.makedirs("myapp", exist_ok=True)
+def create_directory(path):
+    """Crée un dossier si il n'existe pas."""
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"Dossier créé: {path}")
+    else:
+        print(f"Dossier déjà existant: {path}")
 
-# Créer un environnement virtuel pour Python
-subprocess.run([sys.executable, "-m", "venv", ".venv"])
+def create_file_from_template(file_name, template_path):
+    """Crée un fichier à partir d'un template si le fichier n'existe pas."""
+    destination = os.path.join(BASE_DIR, file_name)
+    if not os.path.exists(destination):
+        shutil.copy(template_path, destination)
+        print(f"Fichier {file_name} créé à partir de {template_path}.")
+    else:
+        print(f"Fichier {file_name} déjà existant.")
 
-# Installer Django dans l'environnement virtuel
-subprocess.run(
-    [os.path.join(".venv", "bin", "pip"), "install", "django"] 
-    if os.name != 'nt' else [os.path.join(".venv", "Scripts", "pip"), "install", "django"]
-)
+def setup_project():
+    """Crée la structure de base du projet."""
+    print(f"Configuration du projet '{PROJECT_NAME}'...")
 
-# Créer le projet Django
-subprocess.run(["django-admin", "startproject", yourproject])
+    # Créer le dossier principal du projet
+    create_directory(BASE_DIR)
+
+    # Créer les fichiers principaux du projet à partir des fichiers téléchargés
+    for file_name, template_path in FILES_TO_CREATE.items():
+        create_file_from_template(file_name, template_path)
+
+    print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
+
+if __name__ == "__main__":
+    setup_project()
