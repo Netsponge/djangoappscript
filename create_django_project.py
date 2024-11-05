@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 # Nom de base du projet et chemins des dossiers
-PROJECT_NAME = "MonProjet"
+PROJECT_NAME = "my_project"
 BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
 VENV_DIR = os.path.join(BASE_DIR, 'venv')  # Chemin de l'environnement virtuel
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Dossier des templates
