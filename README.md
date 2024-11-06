@@ -16,11 +16,11 @@ py create_django_project.py
 ## Restart from scratch
 
 ```shell
-rm -rf myapp && py create_django_project.py
+rm -rf my_project && py create_django_project.py
 ```
 
 ## Start server
 
 ```shell
-python manage.py runserver
+py manage.py runserver
 ```
