@@ -18,3 +18,9 @@ py create_django_project.py
 ```shell
 rm -rf myapp && py create_django_project.py
 ```
+
+## Start server
+
+```shell
+python manage.py runserver
+```
