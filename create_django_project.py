@@ -1,52 +1,24 @@
 import os
-import shutil
 import subprocess
 import sys
 
-# Nom de base du projet et chemins des dossiers
+# Nom du projet et chemins des dossiers
 PROJECT_NAME = "my_project"
-BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
-VENV_DIR = os.path.join(BASE_DIR, 'venv')  # Chemin de l'environnement virtuel
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Dossier des templates
-FILES_TO_CREATE = {
-    "asgi.py": """import os
-from django.core.asgi import get_asgi_application
+BASE_DIR = os.getcwd()
+VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Chemin de l'environnement virtuel
+TEMPLATES_DIR = os.path.join(BASE_DIR, PROJECT_NAME, "templates")  # Dossier des templates
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MonProjet.settings')
-application = get_asgi_application()
-""",
-    "urls.py": """from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('', views.home, name='home'),
-]
-""",
-    "wsgi.py": """import os
-from django.core.wsgi import get_wsgi_application
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MonProjet.settings')
-application = get_wsgi_application()
-""",
-}
+# Contenu du fichier .gitignore
+GITIGNORE_CONTENT = """my_django_project
+.venv
+*.sqlite3
+__pycache__
+"""
 
 def create_directory(path):
-    """Crée un dossier si il n'existe pas."""
-    if not os.path.exists(path):
-        os.makedirs(path)
-        print(f"Dossier créé: {path}")
-    else:
-        print(f"Dossier déjà existant: {path}")
-
-def create_file_from_template(file_name, template_content):
-    """Crée un fichier à partir d'un contenu template si le fichier n'existe pas."""
-    destination = os.path.join(BASE_DIR, file_name)
-    if not os.path.exists(destination):
-        with open(destination, 'w') as f:
-            f.write(template_content)
-        print(f"Fichier {file_name} créé avec du contenu par défaut.")
-    else:
-        print(f"Fichier {file_name} déjà existant.")
+    """Crée un dossier s'il n'existe pas."""
+    os.makedirs(path, exist_ok=True)
+    print(f"Dossier créé: {path}")
 
 def create_virtual_environment():
     """Crée un environnement virtuel dans le dossier du projet."""
@@ -56,23 +28,37 @@ def create_virtual_environment():
     else:
         print(f"Environnement virtuel déjà existant à: {VENV_DIR}")
 
+def install_django():
+    """Installe Django dans l'environnement virtuel."""
+    pip_path = os.path.join(VENV_DIR, 'bin', 'pip')
+    subprocess.check_call([pip_path, 'install', 'django'])
+    print("Django installé dans l'environnement virtuel.")
+
+def start_django_project():
+    """Initialise le projet Django avec `django-admin startproject`."""
+    # Vérifier si manage.py existe déjà avant de tenter de créer le projet
+    if not os.path.exists(os.path.join(BASE_DIR, 'manage.py')):
+        django_admin_path = os.path.join(VENV_DIR, 'bin', 'django-admin')
+        subprocess.check_call([django_admin_path, 'startproject', PROJECT_NAME, BASE_DIR])
+        print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
+    else:
+        print("Le fichier 'manage.py' existe déjà. Le projet Django a déjà été initialisé.")
+
+def create_gitignore():
+    """Crée un fichier .gitignore avec les règles spécifiées."""
+    gitignore_path = os.path.join(BASE_DIR, ".gitignore")
+    with open(gitignore_path, "w") as f:
+        f.write(GITIGNORE_CONTENT)
+    print(f"Fichier .gitignore créé avec les règles spécifiées.")
+
 def setup_project():
     """Crée la structure de base du projet."""
     print(f"Configuration du projet '{PROJECT_NAME}'...")
-
-    # Créer le dossier principal du projet
-    create_directory(BASE_DIR)
-
-    # Créer le dossier des templates
-    create_directory(TEMPLATES_DIR)
-
-    # Créer l'environnement virtuel
     create_virtual_environment()
-
-    # Créer les fichiers principaux du projet à partir des contenus définis
-    for file_name, template_content in FILES_TO_CREATE.items():
-        create_file_from_template(file_name, template_content)
-
+    install_django()
+    start_django_project()
+    create_directory(TEMPLATES_DIR)
+    create_gitignore()
     print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
 
 if __name__ == "__main__":
