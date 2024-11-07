@@ -65,7 +65,7 @@ def setup_project():
     create_virtual_environment()
     activate_virtual_environment()
     install_django()
-    #start_django_project()
+    start_django_project()
     # add and commit new files
     # create_directory(TEMPLATES_DIR)
     # create_gitignore()
