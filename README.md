@@ -1,18 +1,17 @@
-# djangoappscript is a more advanced script for a django project
+# Djangostart
 
 ## Prerequisites
 
-Ensure that `py` command points to python3 with `py -V` (python 3 or above)
+- Ensure that `py` command points to python3 with `py -V` (python 3 or above)
+- Ensure that `git` command is working
 
+## Clone this repository
 
-## Create directory 'workspace for example' and create a folder for your project
-
-In your terminal, launch
+In your terminal
 
 ```shell
-cd workspace 
-mkdir my_project
-cd my_project
+git clone https://github.com/Netsponge/djangostart
+cd djangostart
 ```
 
 ## Launch script
