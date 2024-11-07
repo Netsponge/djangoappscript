@@ -11,7 +11,7 @@ In your terminal
 
 ```shell
 git clone https://github.com/Netsponge/djangoappscript
-cd djangostart
+cd djangoappscript
 ```
 
 ## Launch script
