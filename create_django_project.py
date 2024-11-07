@@ -10,6 +10,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, PROJECT_NAME, "templates")  # Dossier des
 
 # Contenu du fichier .gitignore
 GITIGNORE_CONTENT = """
+my_project
 .venv
 *.sqlite3
 __pycache__
@@ -20,13 +21,10 @@ def create_directory(path):
     os.makedirs(path, exist_ok=True)
     print(f"Dossier créé: {path}")
 
-def create_virtual_environment(path):
+def create_virtual_environment():
     """Crée un environnement virtuel dans le dossier du projet."""
-    # Create a virtual environment in "myapp/.venv"
-    subprocess.run([sys.executable, "-m", "venv", f"{path}/.venv"])
-    # Activate the virtual environment
-    activation_cmd = f"source {path}/.venv/bin/activate"
-    subprocess.run(activation_cmd, shell=True)
+    subprocess.run([sys.executable, "-m", "venv", VENV_DIR])
+    print(f"Environnement virtuel créé dans {VENV_DIR}")
 
 def install_django():
     """Installe Django dans l'environnement virtuel."""
@@ -51,15 +49,16 @@ def create_gitignore():
         f.write(GITIGNORE_CONTENT)
     print(f"Fichier .gitignore créé avec les règles spécifiées.")
 
+
 def setup_project():
     """Crée la structure de base du projet."""
     print(f"Configuration du projet '{PROJECT_NAME}'...")
-    create_virtual_environment(PROJECT_NAME)
-    # install_django()
-    # start_django_project()
-    # create_directory(TEMPLATES_DIR)
-    # create_gitignore()
-    # print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
+    create_virtual_environment()
+    install_django()
+    start_django_project()
+    create_directory(TEMPLATES_DIR)
+    create_gitignore()
+    print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
 
 if __name__ == "__main__":
     setup_project()
