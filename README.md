@@ -10,7 +10,7 @@
 In your terminal
 
 ```shell
-git clone https://github.com/Netsponge/djangostart
+git clone https://github.com/Netsponge/djangoappscript
 cd djangostart
 ```
 
