@@ -60,7 +60,7 @@ def setup_project():
     print(f"Configuration du projet '{PROJECT_NAME}'...")
     create_directory(PROJECT_NAME)
     create_virtual_environment()
-    #activate_virtual_environment()
+    activate_virtual_environment()
     #install_django()
     #start_django_project()
     # add and commit new files
