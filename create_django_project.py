@@ -27,13 +27,16 @@ def create_virtual_environment():
     print(f"Environnement virtuel créé dans {VENV_DIR}")
 
 def activate_virtual_environment():
-    """Active l'environnement virtuel du projet."""
-    activate_script = os.path.join(VENV_DIR, "bin", "activate")
-    # TODO: check under Windowss
-    if sys.platform.startswith("win"):
-        subprocess.run(["cmd", "/c", activate_script], check=True)
-    else:
-        subprocess.run([".", activate_script, "&&", "echo", "Environnement virtuel activé"], shell=True, check=True)
+    """Utilise Python de l'environnement virtuel directement."""
+    python_executable = os.path.join(VENV_DIR, "bin", "python")
+
+    # Vérifie si l'exécutable Python existe dans l'environnement virtuel
+    if not os.path.isfile(python_executable):
+        print("L'exécutable Python n'est pas trouvé dans l'environnement virtuel.")
+        return
+    
+    print(f"Utilisation de Python depuis l'environnement virtuel : {python_executable}")
+
 
 def install_django():
     """Installe Django dans l'environnement virtuel."""
@@ -61,7 +64,7 @@ def setup_project():
     create_directory(PROJECT_NAME)
     create_virtual_environment()
     activate_virtual_environment()
-    #install_django()
+    install_django()
     #start_django_project()
     # add and commit new files
     # create_directory(TEMPLATES_DIR)
