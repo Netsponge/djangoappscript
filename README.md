@@ -5,6 +5,16 @@
 Ensure that `py` command points to python3 with `py -V` (python 3 or above)
 
 
+## Create directory 'workspace for example' and create a folder for your project
+
+In your terminal, launch
+
+```shell
+cd workspace 
+mkdir my_project
+cd my_project
+```
+
 ## Launch script
 
 In the terminal, launch
