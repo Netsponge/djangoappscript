@@ -46,6 +46,17 @@ def start_django_project():
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
 
+def set_git_identity():
+    try:
+        # Vérifier si l'identité est configurée
+        subprocess.run(['git', 'config', '--global', 'user.name'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(['git', 'config', '--global', 'user.email'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        # Si l'identité n'est pas configurée, la définir
+        print("Identité Git non configurée. Configuration de l'identité par défaut...")
+        subprocess.run(['git', 'config', '--global', 'user.name', '"Votre Nom"'], check=True)
+        subprocess.run(['git', 'config', '--global', 'user.email', '"vous@example.com"'], check=True)
+        print("Identité Git configurée.")
 
 def git_add_commit_push(commit_message, branch_name):
     try:
@@ -91,6 +102,7 @@ def setup_project():
     #activate_virtual_environment()
     #install_django()
     #start_django_project()
+    set_git_identity()
     git_add_commit_push("Initial commit", "main")
     # create_directory(TEMPLATES_DIR)
     # create_gitignore()
