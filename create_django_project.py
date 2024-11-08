@@ -110,7 +110,7 @@ def setup_project():
     start_django_project()
     set_git_identity()
     git_add_commit_push("virtual env ok and git acp ok", "main")
-    # create_directory(TEMPLATES_DIR)
+    create_directory(TEMPLATES_DIR)
     # create_gitignore()
     # print(f"'{PROJECT_NAME}' project successfully set up!")
 
