@@ -60,13 +60,18 @@ def set_git_identity():
 
 def git_add_commit_push(commit_message, branch_name):
     try:
-        # Exécuter 'git add .'
+        # Exécuter 'git add .' pour ajouter tous les fichiers modifiés
         subprocess.run(['git', 'add', '.'], check=True)
         print("Fichiers ajoutés avec succès.")
 
-        # Exécuter 'git commit -m "message"'
-        subprocess.run(['git', 'commit', '-m', commit_message], check=True)
-        print("Commit effectué avec succès.")
+        # Vérifier s'il y a des changements avant de tenter un commit
+        status = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
+        if status.stdout.strip():  # Si la sortie n'est pas vide, il y a des changements
+            # Exécuter 'git commit -m "message"'
+            subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+            print("Commit effectué avec succès.")
+        else:
+            print("Aucun changement à commettre.")
 
         # Exécuter 'git push origin <branche>'
         subprocess.run(['git', 'push', 'origin', branch_name], check=True)
@@ -74,6 +79,7 @@ def git_add_commit_push(commit_message, branch_name):
 
     except subprocess.CalledProcessError as e:
         print(f"Erreur lors de l'exécution de la commande Git: {e}")
+
 
 
 def setup_project():
