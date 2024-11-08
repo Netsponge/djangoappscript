@@ -46,6 +46,35 @@ def start_django_project():
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
 
+
+def git_add_commit_push(commit_message, branch_name):
+    try:
+        # Exécuter 'git add .'
+        subprocess.run(['git', 'add', '.'], check=True)
+        print("Fichiers ajoutés avec succès.")
+
+        # Exécuter 'git commit -m "message"'
+        subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+        print("Commit effectué avec succès.")
+
+        # Exécuter 'git push origin <branche>'
+        subprocess.run(['git', 'push', 'origin', branch_name], check=True)
+        print(f"Modifications poussées vers la branche {branch_name} avec succès.")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors de l'exécution de la commande Git: {e}")
+
+
+def setup_project():
+    # Configuration du projet (exemple)
+    print("Configuration du projet 'my_project'...")
+    
+    # Code de création de votre projet (dossier, fichiers, etc.)
+    project_name = "my_project"
+    print(f"Dossier créé: {project_name}")
+
+
+
 def create_gitignore():
     """create gitignore file"""
     gitignore_path = os.path.join(BASE_DIR, ".gitignore")
@@ -58,11 +87,11 @@ def setup_project():
     """setup project"""
     print(f"Configuration du projet '{PROJECT_NAME}'...")
     create_directory(PROJECT_NAME)
-    create_virtual_environment()
-    activate_virtual_environment()
-    install_django()
-    start_django_project()
-    # add and commit new files
+    #create_virtual_environment()
+    #activate_virtual_environment()
+    #install_django()
+    #start_django_project()
+    git_add_commit_push("Initial commit", "main")
     # create_directory(TEMPLATES_DIR)
     # create_gitignore()
     # print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
