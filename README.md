@@ -13,6 +13,14 @@ In your terminal
 git clone https://github.com/Netsponge/djangoappscript
 cd djangoappscript
 ```
+## Check if the GIT identity is configured
+ make sure to have your GitHub PAT (private access token) to push to your project !
+
+ if it's not activate, the script help you to configure your git identity.
+
+ 
+
+
 
 ## Launch script
 
