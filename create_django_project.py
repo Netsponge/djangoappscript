@@ -48,7 +48,7 @@ def start_django_project():
 
 def set_git_identity():
     try:
-        # Vérifier si l'identité est configurée
+        # Vérifier si l'identité est configurée, attention il faut disposer de son PAT(private access token)github pour pousser sur son projet !
         subprocess.run(['git', 'config', '--global', 'user.name'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(['git', 'config', '--global', 'user.email'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError:
