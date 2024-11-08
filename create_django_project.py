@@ -2,12 +2,17 @@ import os
 import subprocess
 import sys
 
-# root project and name project
+import os
+import subprocess
+import sys
+
+# Project name and directory paths
 PROJECT_NAME = "my_project"
 BASE_DIR = os.getcwd() + f"/{PROJECT_NAME}"
-VENV_DIR = os.path.join(BASE_DIR, '.venv')  # root of virtual environmpent
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # templates folder
+VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Virtual environment directory
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Templates directory
 
+# Content for the .gitignore file
 GITIGNORE_CONTENT = """
 my_project
 .venv
@@ -16,103 +21,98 @@ __pycache__
 """
 
 def create_directory(path):
-    """create directory"""
+    """Creates a directory if it does not exist."""
     os.makedirs(path, exist_ok=True)
-    print(f"Dossier créé: {path}")
+    print(f"Directory created: {path}")
 
 def create_virtual_environment():
-    """create virtual environment"""
+    """Creates a virtual environment in the project folder."""
     subprocess.run([sys.executable, "-m", "venv", VENV_DIR])
-    print(f"Environnement virtuel créé dans {VENV_DIR}")
+    print(f"Virtual environment created at {VENV_DIR}")
 
 def activate_virtual_environment():
-    """Activate virtual environment"""
-    activate_script = os.path.join(VENV_DIR, "bin", "activate")
-    # TODO: check under Windowss
-    if sys.platform.startswith("win"):
-        subprocess.run(["cmd", "/c", activate_script], check=True)
-    else:
-        subprocess.run([".", activate_script, "&&", "echo", "virtual environment activate!"], shell=True, check=True)
+    """Activates the virtual environment in a subprocess."""
+    venv_dir = '/Users/jeanbaptistemarrec/workspace/djangoappscript/my_project/.venv'
+    activate_script = os.path.join(venv_dir, 'bin', 'activate')
+
+    # Check if the activation script exists
+    if not os.path.isfile(activate_script):
+        print(f"The activation script was not found at {activate_script}")
+        return
+
+    # Execute the activation script in a bash subprocess
+    subprocess.run(f"source {activate_script} && echo 'Virtual environment activated'", shell=True, executable='/bin/bash')
+
+    print("The virtual environment has been activated in the subprocess.")
 
 def install_django():
-    """install django in virtual environment"""
+    """Installs Django in the virtual environment."""
     pip_path = os.path.join(VENV_DIR, 'bin', 'pip')
     subprocess.check_call([pip_path, 'install', 'django'])
-    print("Django installé dans l'environnement virtuel.")
+    print("Django installed in the virtual environment.")
 
 def start_django_project():
-    """Initialise django project with`django-admin startproject`."""
+    """Initializes the Django project with `django-admin startproject`."""
     django_admin_path = os.path.join(VENV_DIR, 'bin', 'django-admin')
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
-    print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
+    print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
+
+
 
 def set_git_identity():
     try:
-        # Vérifier si l'identité est configurée, attention il faut disposer de son PAT(private access token)github pour pousser sur son projet !
+        # Check if the identity is configured, make sure to have your GitHub PAT (private access token) to push to your project!
         subprocess.run(['git', 'config', '--global', 'user.name'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(['git', 'config', '--global', 'user.email'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError:
-        # Si l'identité n'est pas configurée, la définir
-        print("Identité Git non configurée. Configuration de l'identité par défaut...")
-        subprocess.run(['git', 'config', '--global', 'user.name', '"Votre Nom"'], check=True)
-        subprocess.run(['git', 'config', '--global', 'user.email', '"vous@example.com"'], check=True)
-        print("Identité Git configurée.")
+        # If the identity is not configured, set it to the default identity
+        print("Git identity is not configured. Setting default identity...")
+        subprocess.run(['git', 'config', '--global', 'user.name', '"Your Name"'], check=True)
+        subprocess.run(['git', 'config', '--global', 'user.email', '"you@example.com"'], check=True)
+        print("Git identity configured.")
 
 def git_add_commit_push(commit_message, branch_name):
     try:
-        # Exécuter 'git add .' pour ajouter tous les fichiers modifiés
+        # Run 'git add .' to add all modified files
         subprocess.run(['git', 'add', '.'], check=True)
-        print("Fichiers ajoutés avec succès.")
+        print("Files added successfully.")
 
-        # Vérifier s'il y a des changements avant de tenter un commit
+        # Check if there are changes before attempting a commit
         status = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
-        if status.stdout.strip():  # Si la sortie n'est pas vide, il y a des changements
-            # Exécuter 'git commit -m "message"'
+        if status.stdout.strip():  # If the output is not empty, there are changes
+            # Run 'git commit -m "message"'
             subprocess.run(['git', 'commit', '-m', commit_message], check=True)
-            print("Commit effectué avec succès.")
+            print("Commit successful.")
         else:
-            print("Aucun changement à commettre.")
+            print("No changes to commit.")
 
-        # Exécuter 'git push origin <branche>'
+        # Run 'git push origin <branch>'
         subprocess.run(['git', 'push', 'origin', branch_name], check=True)
-        print(f"Modifications poussées vers la branche {branch_name} avec succès.")
+        print(f"Changes pushed to the {branch_name} branch successfully.")
 
     except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de l'exécution de la commande Git: {e}")
-
-
-
-def setup_project():
-    # Configuration du projet (exemple)
-    print("Configuration du projet 'my_project'...")
-    
-    # Code de création de votre projet (dossier, fichiers, etc.)
-    project_name = "my_project"
-    print(f"Dossier créé: {project_name}")
-
-
+        print(f"Error while executing the Git command: {e}")
 
 def create_gitignore():
-    """create gitignore file"""
+    """Creates a .gitignore file with the specified rules."""
     gitignore_path = os.path.join(BASE_DIR, ".gitignore")
     with open(gitignore_path, "w") as f:
         f.write(GITIGNORE_CONTENT)
-    print(f"Fichier .gitignore créé avec les règles spécifiées.")
-
+    print(f".gitignore file created with the specified rules.")
 
 def setup_project():
-    """setup project"""
-    print(f"Configuration du projet '{PROJECT_NAME}'...")
+    """Creates the basic structure of the project."""
+    print(f"Setting up the '{PROJECT_NAME}' project...")
     create_directory(PROJECT_NAME)
-    #create_virtual_environment()
-    #activate_virtual_environment()
-    #install_django()
-    #start_django_project()
+    create_virtual_environment()
+    activate_virtual_environment()
+    install_django()
+    start_django_project()
     set_git_identity()
-    git_add_commit_push("Initial commit", "main")
+    git_add_commit_push("virtual env ok and git acp ok", "main")
     # create_directory(TEMPLATES_DIR)
     # create_gitignore()
-    # print(f"Projet '{PROJECT_NAME}' configuré avec succès !")
+    # print(f"'{PROJECT_NAME}' project successfully set up!")
 
 if __name__ == "__main__":
     setup_project()
