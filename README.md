@@ -41,3 +41,4 @@ rm -rf my_project && py create_django_project.py
  http://127.0.0.1:8000/
 
 The install worked successfully! Congratulations!
+

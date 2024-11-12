@@ -3,6 +3,7 @@ import subprocess
 import sys
 from colorama import Fore, init
 
+
 # Project name and directory paths
 PROJECT_NAME = "my_project"
 BASE_DIR = os.getcwd() + f"/{PROJECT_NAME}"
@@ -46,12 +47,14 @@ def install_django():
     pip_path = os.path.join(VENV_DIR, 'bin', 'pip')
     subprocess.check_call([pip_path, 'install', 'django'])
     print("Django installed in the virtual environment.")
+  
 
 def start_django_project():
-    # Initializes the Django project with `django-admin startproject`.
+    """Initialise le projet Django avec `django-admin startproject`."""
     django_admin_path = os.path.join(VENV_DIR, 'bin', 'django-admin')
-    subprocess.check_call([django_admin_path, 'startproject', PROJECT_NAME, BASE_DIR])
-    print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
+    subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
+    print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
+
 
 def create_gitignore():
     # Creates a .gitignore file with the specified rules.
@@ -68,7 +71,7 @@ def setup_project():
     install_django()
     start_django_project()
     create_directory(TEMPLATES_DIR)
-    # create_gitignore()
+    create_gitignore()
     print(Fore.GREEN + f"'{PROJECT_NAME}' project successfully set up!🎉🎉🎉")
 
 def run_server():
