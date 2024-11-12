@@ -3,14 +3,17 @@ import subprocess
 import sys
 from colorama import Fore, init
 
+# Initialisation de colorama pour afficher des couleurs dans la console
+init(autoreset=True)
 
-# Project name and directory paths
+# Nom du projet et chemins de répertoire
 PROJECT_NAME = "my_project"
-BASE_DIR = os.getcwd() + f"/{PROJECT_NAME}"
-VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Virtual environment directory
-TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Templates directory
+BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
+CORE_DIR = os.path.join(BASE_DIR, "core")  # Dossier du projet Django principal
+VENV_DIR = os.path.join(CORE_DIR, '.venv')  # Dossier de l'environnement virtuel
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Dossier de templates
 
-# Content for the .gitignore file
+# Contenu du fichier .gitignore
 GITIGNORE_CONTENT = """
 my_project
 .venv
@@ -19,85 +22,66 @@ __pycache__
 """
 
 def create_directory(path):
-    # Creates a directory if it does not exist.
     os.makedirs(path, exist_ok=True)
-    print(f"Directory created: {path}")
+    print(Fore.YELLOW + f"Dossier créé : {path}")
 
 def create_virtual_environment():
-    # Creates a virtual environment in the project folder.
-    subprocess.run([sys.executable, "-m", "venv", VENV_DIR])
-    print(f"Virtual environment created at {VENV_DIR}")
+    subprocess.run([sys.executable, "-m", "venv", VENV_DIR], check=True)
+    print(Fore.GREEN + f"Environnement virtuel créé dans {VENV_DIR}")
 
 def activate_virtual_environment():
-    # Activates the virtual environment in a subprocess.
+    # Active l'environnement virtuel dans un sous-processus
     activate_script = os.path.join(VENV_DIR, 'bin', 'activate')
 
-    # Check if the activation script exists.
     if not os.path.isfile(activate_script):
-        print(f"The activation script was not found at {activate_script}")
+        print(Fore.RED + f"Le script d'activation est introuvable : {activate_script}")
         return
 
-    # Activate the virtual environment using `source`
-    subprocess.run(f"source {activate_script} && echo 'Virtual environment activated'", shell=True, executable='/bin/bash')
-
-    print("The virtual environment has been activated.")
+    subprocess.run(f"source {activate_script} && echo 'Environnement virtuel activé'", shell=True, executable='/bin/bash')
+    print(Fore.GREEN + "L'environnement virtuel a été activé.")
 
 def install_django():
-    # Installs Django in the virtual environment.
     pip_path = os.path.join(VENV_DIR, 'bin', 'pip')
     subprocess.check_call([pip_path, 'install', 'django'])
-    print("Django installed in the virtual environment.")
-  
+    print(Fore.GREEN + "Django installé dans l'environnement virtuel.")
 
 def start_django_project():
-    """Initialise le projet Django avec `django-admin startproject`."""
     django_admin_path = os.path.join(VENV_DIR, 'bin', 'django-admin')
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
-    print(f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
-
+    print(Fore.GREEN + f"Projet Django '{PROJECT_NAME}' initialisé avec `manage.py`.")
 
 def create_gitignore():
-    # Creates a .gitignore file with the specified rules.
     gitignore_path = os.path.join(BASE_DIR, ".gitignore")
     with open(gitignore_path, "w") as f:
         f.write(GITIGNORE_CONTENT)
-    print(f".gitignore file created with the specified rules.")
+    print(Fore.GREEN + ".gitignore créé avec les règles spécifiées.")
 
 def setup_project():
-    # Creates the basic structure of the project.
-    print(f"Setting up the '{PROJECT_NAME}' project...")
+    print(Fore.YELLOW + f"Configuration du projet '{PROJECT_NAME}'...")
     create_directory(PROJECT_NAME)
+    create_directory(CORE_DIR)
     create_virtual_environment()
+    activate_virtual_environment()
     install_django()
     start_django_project()
     create_directory(TEMPLATES_DIR)
     create_gitignore()
-    print(Fore.GREEN + f"'{PROJECT_NAME}' project successfully set up!🎉🎉🎉")
+    print(Fore.GREEN + f"Projet '{PROJECT_NAME}' configuré avec succès ! 🎉")
 
 def run_server():
-    # Ensure we're using Python 3
-    print("Starting Django development server...")
+    print(Fore.YELLOW + "Démarrage du serveur de développement Django...")
     
-    # Check if virtual environment is activated by checking if the bin folder exists
     if not os.path.isdir(VENV_DIR):
-        print("Error: The virtual environment is not set up correctly.")
+        print(Fore.RED + "Erreur : L'environnement virtuel n'est pas configuré.")
         return
-
-    # Change directory to 'my_project' where manage.py is located
-    os.chdir(BASE_DIR)  # Change to the project directory
-
-    # Detect whether the system is Windows or Linux/Mac
-    if sys.platform == "win32":  # Windows
-        python_command = "py"  # Use the 'py' launcher on Windows
-    else:  # Linux/Mac
-        python_command = "python3"
-
-    # Execute `python manage.py runserver` to start the server
+    
+    os.chdir(BASE_DIR)
+    python_command = "python3" if sys.platform != "win32" else "py"
+    
     try:
-        subprocess.run([python_command, "manage.py", "runserver"], check=True)
+        subprocess.run([os.path.join(VENV_DIR, 'bin', python_command), "manage.py", "runserver"], check=True)
     except subprocess.CalledProcessError as e:
-        print(f"Error occurred: {e}")
-        print("Failed to start the server.")
+        print(Fore.RED + f"Erreur lors du démarrage du serveur : {e}")
 
 if __name__ == "__main__":
     setup_project()
