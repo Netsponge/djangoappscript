@@ -67,7 +67,20 @@ def style_css(static_dir, style_css_name, content="body { font-family: Arial, sa
     
     print(f"CSS file created: {file_path}")
 
-def create_home_html(templates_dir, file_name, content="<!DOCTYPE html><html><head><title>Home</title></head><body><h1>Welcome to Home Page</h1></body></html>"):
+def create_home_html(templates_dir, file_name):
+    # HTML content for home.html with the specified structure
+    content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello-World</title>
+</head>
+<body>
+    
+</body>
+</html>"""
+
     # Creates the specified directory if it doesn't exist
     if not os.path.exists(templates_dir):
         os.makedirs(templates_dir)
@@ -75,7 +88,7 @@ def create_home_html(templates_dir, file_name, content="<!DOCTYPE html><html><he
     # Constructs the full file path
     file_path = os.path.join(templates_dir, file_name)
 
-    # Creates the file and writes the content (or leaves it empty by default)
+    # Creates the file and writes the content
     with open(file_path, 'w') as file:
         file.write(content)
     
@@ -98,9 +111,9 @@ def setup_project():
     install_django()
     start_django_project()
     create_directory(TEMPLATES_DIR)
-    create_home_html(TEMPLATES_DIR, "home.html")  # Creates the home.html file in the templates directory
+    create_home_html(TEMPLATES_DIR, "home.html") 
     create_directory(STATIC_DIR)
-    style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
+    style_css(STATIC_DIR, "style.css")  
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
