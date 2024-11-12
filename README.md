@@ -14,14 +14,6 @@ git clone https://github.com/Netsponge/djangoappscript
 cd djangoappscript
 ```
 
-## Git commit
- 
-````shell
-git add .
-git commit -m "first commit"
-````
-
-
 ## Launch script
 
 In the terminal, launch
@@ -41,4 +33,11 @@ rm -rf my_project && py create_django_project.py
  http://127.0.0.1:8000/
 
 The install worked successfully! Congratulations!
+
+## Git commit
+ 
+````shell
+git add .
+git commit -m "first commit"
+````
 
