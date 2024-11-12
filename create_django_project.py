@@ -60,7 +60,16 @@ def create_gitignore():
         f.write(GITIGNORE_CONTENT)
     print(f".gitignore file created with the specified rules.")
 
-
+def setup_project():
+    # Creates the basic structure of the project.
+    print(f"Setting up the '{PROJECT_NAME}' project...")
+    create_directory(PROJECT_NAME)
+    create_virtual_environment()
+    install_django()
+    start_django_project()
+    create_directory(TEMPLATES_DIR)
+    # create_gitignore()
+    print(Fore.GREEN + f"'{PROJECT_NAME}' project successfully set up!🎉🎉🎉")
 
 def run_server():
     # Ensure we're using Python 3
@@ -74,29 +83,18 @@ def run_server():
     # Change directory to 'my_project' where manage.py is located
     os.chdir(BASE_DIR)  # Change to the project directory
 
-    # Ensure that we're using python3 (for macOS/Linux)
-    python_command = "python3" if sys.platform != "win32" else "python"
-    
-    # Execute `python3 manage.py runserver` to start the server
+    # Detect whether the system is Windows or Linux/Mac
+    if sys.platform == "win32":  # Windows
+        python_command = "py"  # Use the 'py' launcher on Windows
+    else:  # Linux/Mac
+        python_command = "python3"
+
+    # Execute `python manage.py runserver` to start the server
     try:
         subprocess.run([python_command, "manage.py", "runserver"], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error occurred: {e}")
         print("Failed to start the server.")
-
-
-def setup_project():
-    # Creates the basic structure of the project.
-    print(f"Setting up the '{PROJECT_NAME}' project...")
-    create_directory(PROJECT_NAME)
-    create_virtual_environment()
-    install_django()
-    start_django_project()
-    create_directory(TEMPLATES_DIR)
-    # create_gitignore()
-    print(Fore.GREEN + f"'{PROJECT_NAME}' project successfully set up!🎉🎉🎉")
-
-
 
 if __name__ == "__main__":
     setup_project()
