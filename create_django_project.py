@@ -8,7 +8,7 @@ BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
 CORE_DIR = os.path.join(BASE_DIR, "core")  # Main Django project folder
 VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Virtual environment directory in "core"
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Templates directory
-STATIC_DIR = os.path.join(BASE_DIR, "static")
+STATIC_DIR = os.path.join(BASE_DIR, "static")  # Static files directory
 
 # Content for the .gitignore file
 GITIGNORE_CONTENT = """
@@ -53,6 +53,19 @@ def start_django_project():
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
 
+def style_css(static_dir, style_css_name, content="body { font-family: Arial, sans-serif; background-color: #f4f4f9; }"):
+    # Creates the specified directory if it doesn't exist
+    if not os.path.exists(static_dir):
+        os.makedirs(static_dir)
+
+    # Constructs the full file path
+    file_path = os.path.join(static_dir, style_css_name)
+
+    # Creates the file and writes the content (or leaves it empty by default)
+    with open(file_path, 'w') as file:
+        file.write(content)
+    
+    print(f"CSS file created: {file_path}")
 
 def create_gitignore():
     # Creates a .gitignore file with the specified rules.
@@ -71,9 +84,10 @@ def setup_project():
     install_django()
     start_django_project()
     create_directory(TEMPLATES_DIR)
+    create_directory(STATIC_DIR)
+    style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
-    create_directory(STATIC_DIR)
+
 if __name__ == "__main__":
     setup_project()
-    
