@@ -21,18 +21,17 @@ __pycache__
 """
 
 def create_directory(path):
-    """Creates a directory if it does not exist."""
+    #Creates a directory if it does not exist.
     os.makedirs(path, exist_ok=True)
     print(f"Directory created: {path}")
 
 def create_virtual_environment():
-    """Creates a virtual environment in the project folder."""
+    #Creates a virtual environment in the project folder.
     subprocess.run([sys.executable, "-m", "venv", VENV_DIR])
     print(f"Virtual environment created at {VENV_DIR}")
 
 def activate_virtual_environment():
-    """Activates the virtual environment in a subprocess."""
-    venv_dir = '/Users/jeanbaptistemarrec/workspace/djangoappscript/my_project/.venv'
+    #Activates the virtual environment in a subprocess.ppscript/my_project/.venv'
     activate_script = os.path.join(venv_dir, 'bin', 'activate')
 
     # Check if the activation script exists
@@ -46,13 +45,13 @@ def activate_virtual_environment():
     print("The virtual environment has been activated in the subprocess.")
 
 def install_django():
-    """Installs Django in the virtual environment."""
+    #Installs Django in the virtual environment."""
     pip_path = os.path.join(VENV_DIR, 'bin', 'pip')
     subprocess.check_call([pip_path, 'install', 'django'])
     print("Django installed in the virtual environment.")
 
 def start_django_project():
-    """Initializes the Django project with `django-admin startproject`."""
+    #Initializes the Django project with `django-admin startproject`.
     django_admin_path = os.path.join(VENV_DIR, 'bin', 'django-admin')
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
@@ -61,14 +60,14 @@ def start_django_project():
 
 
 def create_gitignore():
-    """Creates a .gitignore file with the specified rules."""
+    #Creates a .gitignore file with the specified rules.
     gitignore_path = os.path.join(BASE_DIR, ".gitignore")
     with open(gitignore_path, "w") as f:
         f.write(GITIGNORE_CONTENT)
     print(f".gitignore file created with the specified rules.")
 
 def setup_project():
-    """Creates the basic structure of the project."""
+    #Creates the basic structure of the project.
     print(f"Setting up the '{PROJECT_NAME}' project...")
     create_directory(PROJECT_NAME)
     create_virtual_environment()
