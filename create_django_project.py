@@ -8,6 +8,7 @@ BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
 CORE_DIR = os.path.join(BASE_DIR, "core")  # Main Django project folder
 VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Virtual environment directory in "core"
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Templates directory
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 # Content for the .gitignore file
 GITIGNORE_CONTENT = """
@@ -52,6 +53,7 @@ def start_django_project():
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
 
+
 def create_gitignore():
     # Creates a .gitignore file with the specified rules.
     gitignore_path = os.path.join(BASE_DIR, ".gitignore")
@@ -71,7 +73,7 @@ def setup_project():
     create_directory(TEMPLATES_DIR)
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
-
+    create_directory(STATIC_DIR)
 if __name__ == "__main__":
     setup_project()
     
