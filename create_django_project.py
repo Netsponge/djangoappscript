@@ -53,6 +53,27 @@ def start_django_project():
     subprocess.check_call([django_admin_path, 'startproject', "core", BASE_DIR])
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
 
+def update_allowed_hosts(settings_file):
+    # Adds "127.0.0.1" to the ALLOWED_HOSTS in settings.py
+    if not os.path.exists(settings_file):
+        print(f"ERROR: The file '{settings_file}' does not exist.")
+        return
+
+    with open(settings_file, 'r') as file:
+        content = file.readlines()
+
+    # Modify the ALLOWED_HOSTS line
+    for i, line in enumerate(content):
+        if line.strip().startswith("ALLOWED_HOSTS"):
+            content[i] = "ALLOWED_HOSTS = ['127.0.0.1']\n"
+            break
+
+    # Write the updated content back to settings.py
+    with open(settings_file, 'w') as file:
+        file.writelines(content)
+    
+    print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
+
 def style_css(static_dir, style_css_name, content="body { font-family: Arial, sans-serif; background-color: #f4f4f9; }"):
     # Creates the specified directory if it doesn't exist
     if not os.path.exists(static_dir):
@@ -110,10 +131,15 @@ def setup_project():
     activate_virtual_environment()
     install_django()
     start_django_project()
+
+    # Correct path to settings.py when there's only one "core" folder
+    settings_file = os.path.join(CORE_DIR, "settings.py")
+    update_allowed_hosts(settings_file) 
+
     create_directory(TEMPLATES_DIR)
-    create_home_html(TEMPLATES_DIR, "home.html") 
+    create_home_html(TEMPLATES_DIR, "home.html")  # Creates the home.html file in the templates directory
     create_directory(STATIC_DIR)
-    style_css(STATIC_DIR, "style.css")  
+    style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
