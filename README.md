@@ -13,10 +13,13 @@ In your terminal
 git clone https://github.com/Netsponge/djangoappscript
 cd djangoappscript
 ```
-## Check if the GIT identity is configured
- make sure to have your GitHub PAT (private access token) to push to your project !
 
- if it's not activate, the script help you to configure your git identity.
+## Git commit
+ 
+````shell
+git add .
+git commit -m "first commit"
+````
 
 
 ## Launch script
@@ -33,19 +36,8 @@ py create_django_project.py
 rm -rf my_project && py create_django_project.py
 ```
 
-## Git commit
- 
-````shell
-git add .
-git commit -m "first commit"
-````
+## The server is listeneing to port:
 
-## Run server 
-ensure you are in the good directory to run the command
+ http://127.0.0.1:8000/
 
-~/workspace/djangoappscript/my_project$ py manage.py runserver
-
-```shell
-py manage.py runserver
-```
-go to localhost 
+The install worked successfully! Congratulations!
