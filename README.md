@@ -36,7 +36,7 @@ rm -rf my_project && py create_django_project.py
 ## Git commit
  
 ````shell
-git add 
+git add .
 git commit -m "first commit"
 ````
 
