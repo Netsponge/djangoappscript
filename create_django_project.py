@@ -1,16 +1,12 @@
 import os
 import subprocess
 import sys
-from colorama import Fore, init
-
-# Initialize colorama for color output in the console
-init(autoreset=True)
 
 # Project name and directory paths
 PROJECT_NAME = "my_project"
 BASE_DIR = os.path.join(os.getcwd(), PROJECT_NAME)
 CORE_DIR = os.path.join(BASE_DIR, "core")  # Main Django project folder
-VENV_DIR = os.path.join(CORE_DIR, '.venv')  # Virtual environment directory in "core"
+VENV_DIR = os.path.join(BASE_DIR, '.venv')  # Virtual environment directory in "core"
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")  # Templates directory
 
 # Content for the .gitignore file
@@ -74,30 +70,8 @@ def setup_project():
     start_django_project()
     create_directory(TEMPLATES_DIR)
     create_gitignore()
-    print(Fore.GREEN + f"'{PROJECT_NAME}' project successfully set up! 🎉")
-
-def run_server():
-    # Starts the Django development server.
-    print("Starting Django development server...")
-    
-    # Check if virtual environment is set up correctly by verifying if the folder exists
-    if not os.path.isdir(VENV_DIR):
-        print("Error: The virtual environment is not set up correctly.")
-        return
-
-    # Change directory to 'my_project' to execute manage.py
-    os.chdir(BASE_DIR)
-
-    # Detect whether the system is Windows or Linux/Mac
-    python_command = "python3" if sys.platform != "win32" else "py"
-    
-    # Execute `python manage.py runserver` to start the server
-    try:
-        subprocess.run([os.path.join(VENV_DIR, 'bin', python_command), "manage.py", "runserver"], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred: {e}")
-        print("Failed to start the server.")
+    print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
 if __name__ == "__main__":
     setup_project()
-    run_server()
+    
