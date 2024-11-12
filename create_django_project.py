@@ -1,10 +1,10 @@
 import os
 import subprocess
 import sys
-
 import os
 import subprocess
 import sys
+from colorama import Fore, init
 
 # Project name and directory paths
 PROJECT_NAME = "my_project"
@@ -58,23 +58,7 @@ def start_django_project():
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
 
 
-def git_add_commit(commit_message, branch_name):
-    try:
-        # Run 'git add .' to add all modified files
-        subprocess.run(['git', 'add', '.'], check=True)
-        print("Files added successfully.")
 
-        # Check if there are changes before attempting a commit
-        status = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
-        if status.stdout.strip():  # If the output is not empty, there are changes
-            # Run 'git commit -m "message"'
-            subprocess.run(['git', 'commit', '-m', commit_message], check=True)
-            print("Commit successful.")
-        else:
-            print("No changes to commit.")
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error while executing the Git command: {e}")
 
 def create_gitignore():
     """Creates a .gitignore file with the specified rules."""
@@ -91,10 +75,9 @@ def setup_project():
     activate_virtual_environment()
     install_django()
     start_django_project()
-    git_add_commit("success")
     create_directory(TEMPLATES_DIR)
     # create_gitignore()
-    # print(f"'{PROJECT_NAME}' project successfully set up!")
+    print(Fore.GREEN +f"'{PROJECT_NAME}' project successfully set up!🎉🎉🎉")
 
 if __name__ == "__main__":
     setup_project()

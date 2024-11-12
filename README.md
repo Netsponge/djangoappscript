@@ -18,9 +18,6 @@ cd djangoappscript
 
  if it's not activate, the script help you to configure your git identity.
 
- 
-
-
 
 ## Launch script
 
@@ -35,3 +32,20 @@ py create_django_project.py
 ```shell
 rm -rf my_project && py create_django_project.py
 ```
+
+## Git commit
+ 
+````shell
+git add 
+git commit -m "first commit"
+````
+
+## Run server 
+ensure you are in the good directory to run the command
+
+~/workspace/djangoappscript/my_project$ py manage.py runserver
+
+```shell
+py manage.py runserver
+```
+go to localhost 
