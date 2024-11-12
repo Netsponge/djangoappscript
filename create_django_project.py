@@ -58,20 +58,7 @@ def start_django_project():
     print(f"Django project '{PROJECT_NAME}' initialized with `manage.py`.")
 
 
-
-def set_git_identity():
-    try:
-        # Check if the identity is configured, make sure to have your GitHub PAT (private access token) to push to your project!
-        subprocess.run(['git', 'config', '--global', 'user.name'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subprocess.run(['git', 'config', '--global', 'user.email'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError:
-        # If the identity is not configured, set it to the default identity
-        print("Git identity is not configured. Setting default identity...")
-        subprocess.run(['git', 'config', '--global', 'user.name', '"Your Name"'], check=True)
-        subprocess.run(['git', 'config', '--global', 'user.email', '"you@example.com"'], check=True)
-        print("Git identity configured.")
-
-def git_add_commit_push(commit_message, branch_name):
+def git_add_commit(commit_message, branch_name):
     try:
         # Run 'git add .' to add all modified files
         subprocess.run(['git', 'add', '.'], check=True)
@@ -85,10 +72,6 @@ def git_add_commit_push(commit_message, branch_name):
             print("Commit successful.")
         else:
             print("No changes to commit.")
-
-        # Run 'git push origin <branch>'
-        subprocess.run(['git', 'push', 'origin', branch_name], check=True)
-        print(f"Changes pushed to the {branch_name} branch successfully.")
 
     except subprocess.CalledProcessError as e:
         print(f"Error while executing the Git command: {e}")
@@ -108,8 +91,7 @@ def setup_project():
     activate_virtual_environment()
     install_django()
     start_django_project()
-    set_git_identity()
-    git_add_commit_push("virtual env ok and git acp ok", "main")
+    git_add_commit("success")
     create_directory(TEMPLATES_DIR)
     # create_gitignore()
     # print(f"'{PROJECT_NAME}' project successfully set up!")
