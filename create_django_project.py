@@ -95,7 +95,7 @@ def create_home_html(templates_dir, file_name):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello-World</title>
+    <title>Home</title>
 </head>
 <body>
     <h1>Hello-World</h1>
@@ -114,6 +114,33 @@ def create_home_html(templates_dir, file_name):
         file.write(content)
     
     print(f"HTML file created: {file_path}")
+
+
+def create_about_html(templates_dir, file_name):
+    # HTML content for home.html with the specified structure
+    content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+</head>
+<body>
+    <h1>About</h1>
+    <p>Check out our <a href="/about">About</a> page.</p>
+</body>
+</html>"""
+
+# Creates the specified directory if it doesn't exist
+    if not os.path.exists(templates_dir):
+        os.makedirs(templates_dir)
+
+    # Constructs the full file path
+    file_path = os.path.join(templates_dir, file_name)
+
+    # Creates the file and writes the content
+    with open(file_path, 'w') as file:
+        file.write(content)
 
 def create_gitignore():
     # Creates a .gitignore file with the specified rules.
@@ -137,7 +164,8 @@ def setup_project():
     update_allowed_hosts(settings_file) 
 
     create_directory(TEMPLATES_DIR)
-    create_home_html(TEMPLATES_DIR, "home.html")  # Creates the home.html file in the templates directory
+    create_home_html(TEMPLATES_DIR, "home.html")
+    create_about_html(TEMPLATES_DIR, "about.html")  # Creates the home.html file in the templates directory
     create_directory(STATIC_DIR)
     style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_gitignore()
