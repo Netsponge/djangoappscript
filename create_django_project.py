@@ -161,9 +161,14 @@ def create_views_py(core_dir, file_name):
     default_content = """# views.py
 # This is the views file for the core directory
 
-def sample_view(request):
-    # Example view function
-    return "Hello, world!"
+from django.http import HttpResponse
+
+def homepage(request):
+    return HttpResponse("Home.")
+
+def homepage(request):
+    return HttpResponse("About page.")
+
 """
     with open(file_path, 'w') as file:
         file.write(default_content)
