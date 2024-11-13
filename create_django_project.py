@@ -74,7 +74,7 @@ def update_allowed_hosts(settings_file):
     
     print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
 
-def style_css(static_dir, style_css_name, content="body { font-family: Arial, sans-serif; background-color: #f4f4f9; }"):
+def style_css(static_dir, style_css_name, content="body { font-family: Arial, sans-serif; background-color: #4b0979; }"):
     # Creates the specified directory if it doesn't exist
     if not os.path.exists(static_dir):
         os.makedirs(static_dir)
@@ -99,6 +99,7 @@ def create_home_html(templates_dir, file_name):
 </head>
 <body>
     <h1>Hello-World</h1>
+    <p>Check out our <a href="/about">About</a> page.</p>
 </body>
 </html>"""
 
@@ -161,17 +162,53 @@ def create_views_py(core_dir, file_name):
     default_content = """# views.py
 # This is the views file for the core directory
 
-from django.http import HttpResponse
+#from django.http import HttpResponse
+from django.shortcuts import render
+
 
 def homepage(request):
-    return HttpResponse("Home.")
+    #return HttpResponse("Home.")
+    return render(request, 'home.html')
 
-def homepage(request):
-    return HttpResponse("About page.")
+def about(request):
+    #return HttpResponse("About page.")
+    return render(request, 'about.html')
 
 """
     with open(file_path, 'w') as file:
         file.write(default_content)
+
+
+
+import os
+
+def update_urls_py(core_dir, file_name):
+    # Nouveau contenu pour urls.py
+    new_content = """from django.contrib import admin
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.homepage),
+    path('about/', views.about),
+]
+"""
+
+    # Construit le chemin complet du fichier
+    file_path = os.path.join(core_dir, file_name)
+
+    # Vérifie si le fichier existe et remplace son contenu
+    if os.path.exists(file_path):
+        with open(file_path, 'w') as file:
+            file.write(new_content)
+        print(f"Le fichier '{file_name}' dans le dossier '{core_dir}' a été mis à jour avec les nouveaux liens.")
+    else:
+        print(f"Le fichier '{file_path}' n'existe pas.")
+
+# Exemple d'appel
+update_urls_py(CORE_DIR, "urls.py")
+
     
     
 def setup_project():
@@ -191,6 +228,7 @@ def setup_project():
     create_directory(STATIC_DIR)
     style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_views_py(CORE_DIR, "views.py")
+    update_urls_py(CORE_DIR, "urls.py")
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
