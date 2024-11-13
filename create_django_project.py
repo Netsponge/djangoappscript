@@ -98,7 +98,7 @@ def create_home_html(templates_dir, file_name):
     <title>Hello-World</title>
 </head>
 <body>
-    
+    <h1>Hello-World</h1>
 </body>
 </html>"""
 
