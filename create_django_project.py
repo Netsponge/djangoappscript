@@ -127,7 +127,7 @@ def create_about_html(templates_dir, file_name):
 </head>
 <body>
     <h1>About</h1>
-    <p>Check out our <a href="/about">About</a> page.</p>
+    <p>Check out our <a href="/">Home</a> page.</p>
 </body>
 </html>"""
 
@@ -149,6 +149,26 @@ def create_gitignore():
         f.write(GITIGNORE_CONTENT)
     print(".gitignore file created with the specified rules.")
 
+
+
+import os
+
+def create_views_py(core_dir, file_name):
+    if not os.path.exists(core_dir):
+        os.makedirs(core_dir)
+    file_path = os.path.join(core_dir, file_name)
+
+    default_content = """# views.py
+# This is the views file for the core directory
+
+def sample_view(request):
+    # Example view function
+    return "Hello, world!"
+"""
+    with open(file_path, 'w') as file:
+        file.write(default_content)
+    
+    
 def setup_project():
     # Creates the basic structure of the project.
     print(f"Setting up the '{PROJECT_NAME}' project...")
@@ -158,16 +178,14 @@ def setup_project():
     activate_virtual_environment()
     install_django()
     start_django_project()
-
-    # Correct path to settings.py when there's only one "core" folder
     settings_file = os.path.join(CORE_DIR, "settings.py")
     update_allowed_hosts(settings_file) 
-
     create_directory(TEMPLATES_DIR)
     create_home_html(TEMPLATES_DIR, "home.html")
     create_about_html(TEMPLATES_DIR, "about.html")  # Creates the home.html file in the templates directory
     create_directory(STATIC_DIR)
     style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
+    create_views_py(CORE_DIR, "views.py")
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
