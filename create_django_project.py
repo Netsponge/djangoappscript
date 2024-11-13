@@ -183,7 +183,7 @@ def about(request):
 import os
 
 def update_urls_py(core_dir, file_name):
-    # Nouveau contenu pour urls.py
+    # content
     new_content = """from django.contrib import admin
 from django.urls import path
 from . import views
@@ -194,11 +194,8 @@ urlpatterns = [
     path('about/', views.about),
 ]
 """
-
-    # Construit le chemin complet du fichier
     file_path = os.path.join(core_dir, file_name)
 
-    # Vérifie si le fichier existe et remplace son contenu
     if os.path.exists(file_path):
         with open(file_path, 'w') as file:
             file.write(new_content)
@@ -206,10 +203,25 @@ urlpatterns = [
     else:
         print(f"Le fichier '{file_path}' n'existe pas.")
 
-# Exemple d'appel
-update_urls_py(CORE_DIR, "urls.py")
 
+def update_settings(core_dir, file_name):
+    settings_file_path = os.path.join(core_dir, file_name)
     
+    if not os.path.exists(settings_file_path):
+        print(f"Le fichier '{settings_file_path}' n'existe pas.")
+        return
+
+    with open(settings_file_path, 'r') as file:
+        content = file.read()
+
+    new_content = content.replace(
+        "'DIRS': []", 
+        "'DIRS': ['templates']"
+    )
+
+    with open(settings_file_path, 'w') as file:
+        file.write(new_content)
+
     
 def setup_project():
     # Creates the basic structure of the project.
@@ -229,6 +241,7 @@ def setup_project():
     style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_views_py(CORE_DIR, "views.py")
     update_urls_py(CORE_DIR, "urls.py")
+    update_settings(CORE_DIR, "settings.py")
     create_gitignore()
     print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
 
