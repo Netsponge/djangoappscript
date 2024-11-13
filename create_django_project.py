@@ -211,26 +211,48 @@ def update_settings(core_dir, file_name):
         print(f"Le fichier '{settings_file_path}' n'existe pas.")
         return
 
+   
     with open(settings_file_path, 'r') as file:
-        content = file.read()
+        content = file.readlines()
 
-    # Mise à jour de la section TEMPLATES pour inclure 'DIRS': ['templates']
-    new_content = content.replace(
-        "'DIRS': []",
-        "'DIRS': ['templates']"
-    )
+    
+    import_os_present = False
+    new_lines = []
 
-    # Ajout de l'import os s'il n'est pas déjà présent
-    if "import os" not in new_content:
-        new_content = "import os\n" + new_content
+  
+    for line in content:
+        if line.strip() == "import os":
+            import_os_present = True
+        
+      
+        if not import_os_present and line.startswith("import"):
+            new_lines.append("import os\n")  
+            import_os_present = True
+        
+        new_lines.append(line)
 
-    # Ajout de STATICFILES_DIRS s'il n'est pas déjà présent
-    if "STATICFILES_DIRS" not in new_content:
+    if not import_os_present:
+        new_lines.insert(0, "import os\n")
+
+   
+    for i, line in enumerate(new_lines):
+        if "'DIRS': []" in line:
+            new_lines[i] = "            'DIRS': ['templates'],\n"
+        elif "'DIRS':" in line and "templates" not in line:
+            new_lines[i] = "            'DIRS': ['templates'],\n"
+    
+    staticfiles_found = False
+    for i, line in enumerate(new_lines):
+        if "STATICFILES_DIRS" in line:
+            staticfiles_found = True
+            break
+
+    if not staticfiles_found:
         staticfiles_config = "\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n"
-        new_content += staticfiles_config
-
+        new_lines.append(staticfiles_config)
+    
     with open(settings_file_path, 'w') as file:
-        file.write(new_content)
+        file.writelines(new_lines)
 
 
     
