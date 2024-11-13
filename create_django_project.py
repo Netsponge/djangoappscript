@@ -74,7 +74,7 @@ def update_allowed_hosts(settings_file):
     
     print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
 
-def style_css(static_dir, style_css_name, content="body { font-family: Arial, sans-serif; background-color: #4b0979; }"):
+def style_css(static_dir, style_css_name, content="{font-family: Arial, sans-serif; background-color: #4b0979; color: whitesmoke;}"):
     # Creates the specified directory if it doesn't exist
     if not os.path.exists(static_dir):
         os.makedirs(static_dir)
@@ -91,11 +91,13 @@ def style_css(static_dir, style_css_name, content="body { font-family: Arial, sa
 def create_home_html(templates_dir, file_name):
     # HTML content for home.html with the specified structure
     content = """<!DOCTYPE html>
+    {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+     <link rel="stylesheet" href="{% static 'css/style.css' %} ">
 </head>
 <body>
     <h1>Hello-World</h1>
@@ -216,7 +218,12 @@ def update_settings(core_dir, file_name):
 
     new_content = content.replace(
         "'DIRS': []", 
-        "'DIRS': ['templates']"
+        "'DIRS': ['templates']" 
+        #rajouter ####################
+        #STATICFILES_DIRS = [
+    #os.path.join(BASE_DIR, 'static')
+    #et import os au dessus
+    # from pathlib import Path  ###################
     )
 
     with open(settings_file_path, 'w') as file:
