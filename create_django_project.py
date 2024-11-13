@@ -74,19 +74,16 @@ def update_allowed_hosts(settings_file):
     
     print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
 
-def style_css(static_dir, style_css_name, content="{font-family: Arial, sans-serif; background-color: #4b0979; color: whitesmoke;}"):
-    # Creates the specified directory if it doesn't exist
-    if not os.path.exists(static_dir):
-        os.makedirs(static_dir)
+def style_css(static_dir, style_css_name, content="body { text-align: center; font-size: 2rem; font-family: Arial, sans-serif; background-color: slateblue; color: whitesmoke; }"):
+    css_dir = os.path.join(static_dir, "css")
 
-    # Constructs the full file path
-    file_path = os.path.join(static_dir, style_css_name)
-
-    # Creates the file and writes the content (or leaves it empty by default)
+    if not os.path.exists(css_dir):
+        os.makedirs(css_dir)
+    file_path = os.path.join(css_dir, style_css_name)
     with open(file_path, 'w') as file:
         file.write(content)
     
-    print(f"CSS file created: {file_path}")
+    print(f"Fichier CSS créé : {file_path}")
 
 def create_home_html(templates_dir, file_name):
     # HTML content for home.html with the specified structure
@@ -207,6 +204,7 @@ urlpatterns = [
 
 
 def update_settings(core_dir, file_name):
+    # Construit le chemin complet du fichier settings.py
     settings_file_path = os.path.join(core_dir, file_name)
     
     if not os.path.exists(settings_file_path):
@@ -216,18 +214,24 @@ def update_settings(core_dir, file_name):
     with open(settings_file_path, 'r') as file:
         content = file.read()
 
+    # Mise à jour de la section TEMPLATES pour inclure 'DIRS': ['templates']
     new_content = content.replace(
-        "'DIRS': []", 
-        "'DIRS': ['templates']" 
-        #rajouter ####################
-        #STATICFILES_DIRS = [
-    #os.path.join(BASE_DIR, 'static')
-    #et import os au dessus
-    # from pathlib import Path  ###################
+        "'DIRS': []",
+        "'DIRS': ['templates']"
     )
+
+    # Ajout de l'import os s'il n'est pas déjà présent
+    if "import os" not in new_content:
+        new_content = "import os\n" + new_content
+
+    # Ajout de STATICFILES_DIRS s'il n'est pas déjà présent
+    if "STATICFILES_DIRS" not in new_content:
+        staticfiles_config = "\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n"
+        new_content += staticfiles_config
 
     with open(settings_file_path, 'w') as file:
         file.write(new_content)
+
 
     
 def setup_project():
