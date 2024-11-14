@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    POSTS 
+    post
 {% endblock %}
 
 {% block content %}
@@ -11,11 +11,14 @@
     </h1>
     {% for post in posts %}
     <article class="post">
-        <h2>{{ post.title }}</h2>
+        <h2>
+            <a href="{% url 'page' slug=post.slug %}">
+                {{ post.title }}
+            </a>
+           </h2>
         <p>{{ post.date }}</p>
         <p>{{ post.body }}</p>
     </article>
-    {% endfor%}
+    {% endfor %}
 </section>
-<h1>Posts List</h1>
 {% endblock %}
