@@ -28,9 +28,11 @@ py create_django_project.py
 rm -rf my_project && py create_django_project.py
 ```
 
-## The server is listeneing to port:
+## Run command to start server
 
- http://127.0.0.1:8000/
+```shell
+py manage.py runserver
+```
 
 The install worked successfully! Congratulations!
 
