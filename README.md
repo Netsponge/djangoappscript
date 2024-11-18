@@ -22,6 +22,13 @@ In the terminal, launch
 py create_django_project.py
 ```
 
+## got to my project folder
+
+```shell
+cd my_project
+```
+
+
 ## Restart from scratch
 
 ```shell
