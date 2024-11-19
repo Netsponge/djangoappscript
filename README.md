@@ -49,4 +49,4 @@ The install worked successfully! Congratulations!
 git add .
 git commit -m "first commit"
 ````
-
+## py manage 
