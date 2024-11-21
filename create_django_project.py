@@ -1,4 +1,5 @@
 import os
+import json
 import subprocess
 import sys
 from colorama import Fore, init
@@ -87,62 +88,49 @@ def style_css(static_dir, style_css_name, content="body { text-align: center; fo
     
     print(f"Fichier CSS créé : {file_path}")
 
-def create_home_html(templates_dir, file_name):
-    # HTML content for home.html with the specified structure
-    content = """<!DOCTYPE html>
-    {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-     <link rel="stylesheet" href="{% static 'css/style.css' %} ">
-</head>
-<body>
-    <h1>Hello-World</h1>
-    <p>Check out our <a href="/about">About</a> page.</p>
-</body>
-</html>"""
+class HTMLTemplateManager:
+    def __init__(self, project_name='my_project', templates_dir='templates'):
+        """
+        Initialise le gestionnaire de templates
+        """
+        self.base_dir = os.getcwd()
+        self.project_dir = os.path.join(self.base_dir, project_name)
+        self.templates_dir = os.path.join(self.project_dir, templates_dir)
+        
+        # Crée le dossier projet et templates s'ils n'existent pas
+        os.makedirs(self.templates_dir, exist_ok=True)
 
-    # Creates the specified directory if it doesn't exist
-    if not os.path.exists(templates_dir):
-        os.makedirs(templates_dir)
+    def load_templates_from_json(self, json_file='templates_config.json'):
+        """
+        Charge et crée les templates depuis un fichier JSON
+        """
+        filepath = os.path.join(self.base_dir, json_file)
+        
+        try:
+            with open(filepath, 'r', encoding='utf-8') as file:
+                templates = json.load(file)
+            
+            for filename, content in templates.items():
+                self.create_template(filename, content)
+            
+            print("Tous les templates ont été créés avec succès.")
+        
+        except FileNotFoundError:
+            print(f"Fichier de configuration {json_file} non trouvé.")
+        except json.JSONDecodeError:
+            print("Erreur de décodage du fichier JSON.")
 
-    # Constructs the full file path
-    file_path = os.path.join(templates_dir, file_name)
+    def create_template(self, filename, content):
+        """
+        Crée un fichier HTML dans le dossier templates du projet
+        """
+        filepath = os.path.join(self.templates_dir, filename)
+        
+        with open(filepath, 'w', encoding='utf-8') as file:
+            file.write(content)
+        
+        print(f"Template créé : {filename}")
 
-    # Creates the file and writes the content
-    with open(file_path, 'w') as file:
-        file.write(content)
-    
-    print(f"HTML file created: {file_path}")
-
-
-def create_about_html(templates_dir, file_name):
-    # HTML content for home.html with the specified structure
-    content = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-</head>
-<body>
-    <h1>About</h1>
-    <p>Check out our <a href="/">Home</a> page.</p>
-</body>
-</html>"""
-
-# Creates the specified directory if it doesn't exist
-    if not os.path.exists(templates_dir):
-        os.makedirs(templates_dir)
-
-    # Constructs the full file path
-    file_path = os.path.join(templates_dir, file_name)
-
-    # Creates the file and writes the content
-    with open(file_path, 'w') as file:
-        file.write(content)
 
 def create_gitignore():
     # Creates a .gitignore file with the specified rules.
@@ -270,9 +258,8 @@ def setup_project():
     settings_file = os.path.join(CORE_DIR, "settings.py")
     update_allowed_hosts(settings_file) 
     create_directory(TEMPLATES_DIR)
-    create_home_html(TEMPLATES_DIR, "home.html")
-    create_about_html(TEMPLATES_DIR, "about.html")  # Creates the home.html file in the templates directory
-    create_directory(STATIC_DIR)
+    template_manager = HTMLTemplateManager()
+    template_manager.load_templates_from_json()
     style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
     create_views_py(CORE_DIR, "views.py")
     update_urls_py(CORE_DIR, "urls.py")
