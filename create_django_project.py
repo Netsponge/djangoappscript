@@ -77,16 +77,50 @@ def update_allowed_hosts(settings_file):
     
     print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
 
-def style_css(static_dir, style_css_name, content="body { text-align: center; font-size: 2rem; font-family: Arial, sans-serif; background-color: slateblue; color: whitesmoke; }"):
-    css_dir = os.path.join(static_dir, "css")
+class CSSManager:
+    def __init__(self, project_name='my_project', static_dir='static'):
+        """
+        Initialise le gestionnaire de styles CSS
+        """
+        self.base_dir = os.getcwd()
+        self.project_dir = os.path.join(self.base_dir, project_name)
+        self.static_dir = os.path.join(self.project_dir, static_dir)
+        self.css_dir = os.path.join(self.static_dir, 'css')
+        
+        # Crée les dossiers nécessaires
+        os.makedirs(self.css_dir, exist_ok=True)
 
-    if not os.path.exists(css_dir):
-        os.makedirs(css_dir)
-    file_path = os.path.join(css_dir, style_css_name)
-    with open(file_path, 'w') as file:
-        file.write(content)
-    
-    print(f"Fichier CSS créé : {file_path}")
+    def load_styles_from_json(self, json_file='styles_config.json'):
+        """
+        Charge et crée les fichiers CSS depuis un fichier JSON
+        """
+        filepath = os.path.join(self.base_dir, json_file)
+        
+        try:
+            with open(filepath, 'r', encoding='utf-8') as file:
+                styles = json.load(file)
+            
+            for filename, content in styles.items():
+                self.create_style(filename, content)
+            
+            print("Tous les fichiers CSS ont été créés avec succès.")
+        
+        except FileNotFoundError:
+            print(f"Fichier de configuration {json_file} non trouvé.")
+        except json.JSONDecodeError:
+            print("Erreur de décodage du fichier JSON.")
+
+    def create_style(self, filename, content):
+        """
+        Crée un fichier CSS dans le dossier static/css
+        """
+        filepath = os.path.join(self.css_dir, filename)
+        
+        with open(filepath, 'w', encoding='utf-8') as file:
+            file.write(content)
+        
+        print(f"Fichier CSS créé : {filename}")
+
 
 class HTMLTemplateManager:
     def __init__(self, project_name='my_project', templates_dir='templates'):
@@ -260,7 +294,8 @@ def setup_project():
     create_directory(TEMPLATES_DIR)
     template_manager = HTMLTemplateManager()
     template_manager.load_templates_from_json()
-    style_css(STATIC_DIR, "style.css")  # Creates the CSS file in the static directory
+    css_manager = CSSManager()
+    css_manager.load_styles_from_json()
     create_views_py(CORE_DIR, "views.py")
     update_urls_py(CORE_DIR, "urls.py")
     update_settings(CORE_DIR, "settings.py")

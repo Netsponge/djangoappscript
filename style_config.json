@@ -1,0 +1,3 @@
+{
+    "style.css": "body {\n    text-align: center;\n    font-size: 2rem;\n    font-family: Arial, sans-serif;\n    background-color: slateblue;\n    color: whitesmoke;\n}"
+}

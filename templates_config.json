@@ -2,3 +2,5 @@
     "home.html": "<!DOCTYPE html>\n<html>\n<head><title>Accueil</title></head>\n<body>\n<h1>Page d'Accueil</h1>\n</body>\n</html>",
     "about.html": "<!DOCTYPE html>\n<html>\n<head><title>À Propos</title></head>\n<body>\n<h1>Informations</h1>\n</body>\n</html>"
 }
+
+
