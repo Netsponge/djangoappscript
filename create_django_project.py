@@ -2,8 +2,8 @@ import os
 import json
 import subprocess
 import sys
-# from colorama import Fore, init
-# init()
+from colorama import Fore, init
+init()
 
 # Project name and directory paths
 PROJECT_NAME = "my_project"
@@ -76,94 +76,6 @@ def update_allowed_hosts(settings_file):
         file.writelines(content)
     
     print("Updated ALLOWED_HOSTS to include '127.0.0.1' in settings.py")
-
-class CSSManager:
-    def __init__(self, project_name='my_project', static_dir='static'):
-        """
-        Initialise le gestionnaire de styles CSS
-        """
-        self.base_dir = os.getcwd()
-        self.project_dir = os.path.join(self.base_dir, project_name)
-        self.static_dir = os.path.join(self.project_dir, static_dir)
-        self.css_dir = os.path.join(self.static_dir, 'css')
-        
-        # Crée les dossiers nécessaires
-        os.makedirs(self.css_dir, exist_ok=True)
-
-    def load_styles_from_json(self, json_file='styles_config.json'):
-        """
-        Charge et crée les fichiers CSS depuis un fichier JSON
-        """
-        filepath = os.path.join(self.base_dir, json_file)
-        
-        try:
-            with open(filepath, 'r', encoding='utf-8') as file:
-                styles = json.load(file)
-            
-            for filename, content in styles.items():
-                self.create_style(filename, content)
-            
-            print("Tous les fichiers CSS ont été créés avec succès.")
-        
-        except FileNotFoundError:
-            print(f"Fichier de configuration {json_file} non trouvé.")
-        except json.JSONDecodeError:
-            print("Erreur de décodage du fichier JSON.")
-
-    def create_style(self, filename, content):
-        """
-        Crée un fichier CSS dans le dossier static/css
-        """
-        filepath = os.path.join(self.css_dir, filename)
-        
-        with open(filepath, 'w', encoding='utf-8') as file:
-            file.write(content)
-        
-        print(f"Fichier CSS créé : {filename}")
-
-
-class HTMLTemplateManager:
-    def __init__(self, project_name='my_project', templates_dir='templates'):
-        """
-        Initialise le gestionnaire de templates
-        """
-        self.base_dir = os.getcwd()
-        self.project_dir = os.path.join(self.base_dir, project_name)
-        self.templates_dir = os.path.join(self.project_dir, templates_dir)
-        
-        # Crée le dossier projet et templates s'ils n'existent pas
-        os.makedirs(self.templates_dir, exist_ok=True)
-
-    def load_templates_from_json(self, json_file='templates_config.json'):
-        """
-        Charge et crée les templates depuis un fichier JSON
-        """
-        filepath = os.path.join(self.base_dir, json_file)
-        
-        try:
-            with open(filepath, 'r', encoding='utf-8') as file:
-                templates = json.load(file)
-            
-            for filename, content in templates.items():
-                self.create_template(filename, content)
-            
-            print("Tous les templates ont été créés avec succès.")
-        
-        except FileNotFoundError:
-            print(f"Fichier de configuration {json_file} non trouvé.")
-        except json.JSONDecodeError:
-            print("Erreur de décodage du fichier JSON.")
-
-    def create_template(self, filename, content):
-        """
-        Crée un fichier HTML dans le dossier templates du projet
-        """
-        filepath = os.path.join(self.templates_dir, filename)
-        
-        with open(filepath, 'w', encoding='utf-8') as file:
-            file.write(content)
-        
-        print(f"Template créé : {filename}")
 
 
 def create_gitignore():
@@ -293,10 +205,6 @@ def setup_project():
     settings_file = os.path.join(CORE_DIR, "settings.py")
     update_allowed_hosts(settings_file) 
     create_directory(TEMPLATES_DIR)
-    # template_manager = HTMLTemplateManager()
-    # template_manager.load_templates_from_json()
-    # css_manager = CSSManager()
-    # css_manager.load_styles_from_json()
     # copy_file('files/main.css', 'templates/nimportequoi/main.css')
     # copy_file('files/home.html', 'app/core/templates/home.html')
     # copy_file('files/home.html', 'app/core/templates/home.html')
@@ -307,13 +215,13 @@ def setup_project():
     # copy_file('files/home.html', 'app/core/templates/home.html')
     # copy_file('files/.gitignore', '.gitignore')
     # copy_file('files/README.md', 'README.md')
-    # create_views_py(CORE_DIR, "views.py")
-    # update_urls_py(CORE_DIR, "urls.py")
-    # update_settings(CORE_DIR, "settings.py")
-    # create_gitignore()
-    print(f"'{PROJECT_NAME}' project successfully set up! 🎉")
-    print(f"'{PROJECT_NAME}' now type, cd my_project 📂")
-    print(f"'{PROJECT_NAME}' and run the server with py manage.py runserver 🔍")
+    create_views_py(CORE_DIR, "views.py")
+    update_urls_py(CORE_DIR, "urls.py")
+    update_settings(CORE_DIR, "settings.py")
+    create_gitignore()
+    print(Fore.LIGHTCYAN_EX +f"'{PROJECT_NAME}' project successfully set up! 🎉")
+    print(Fore.LIGHTBLUE_EX +f"'{PROJECT_NAME}' now type, cd my_project 📂")
+    print(Fore.LIGHTGREEN_EX +f"'{PROJECT_NAME}' and run the server with py manage.py runserver 🔍")
 
 if __name__ == "__main__":
     setup_project()
