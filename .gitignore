@@ -1,4 +1,5 @@
-
+.DS_Store
 .venv
 .sqlite3
 __pycache__
+my_project
